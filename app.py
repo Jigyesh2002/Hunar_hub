@@ -11,7 +11,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 mimetypes.add_type('text/css', '.css')
 
 app = Flask(__name__)
-app.secret_key = 'skillconnect_secret_key_change_in_production'
+app.secret_key = os.environ.get('SECRET_KEY', 'skillconnect_secret_key_change_in_production')
 DATABASE = os.path.join(app.root_path, 'skillconnect.db')
 
 def get_db():
