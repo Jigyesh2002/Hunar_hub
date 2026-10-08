@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% block content %}
+<!-- Dark Hero Sub-Header -->
+<div class="page-header text-center">
+  <div class="container">
+    <div class="hero-eyebrow animate-fade-in" style="justify-content: center;">
+      Artisan Hub & Earnings
+    </div>
+    <h1 class="hero-title animate-fade-in mb-2" style="font-size: 2.8rem;">
+      Artisan <span>Portal</span>
+    </h1>
+    <p class="hero-subtitle animate-fade-in mb-0" style="max-width: 600px;">
+      Manage incoming work requests, net earnings, and active job status
+    </p>
+  </div>
+</div>
+
+<!-- Floating Content Card Section -->
+<div class="container overlap-container">
+  <!-- Earnings & Job Counters -->
+  <div class="row g-4 mb-4">
+    <div class="col-md-4">
+      <div class="stat-card shadow-lg">
+        <span class="text-muted small fw-bold">Total Net Earnings (90%)</span>
+        <div class="stat-number text-emerald mt-1">₹{{ stats.total_earnings }}</div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="stat-card shadow-lg">
+        <span class="text-muted small fw-bold">Jobs Successfully Completed</span>
+        <div class="stat-number mt-1" style="color: #c026d3;">{{ stats.completed_count }}</div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="stat-card shadow-lg">
+        <span class="text-muted small fw-bold">Pending Booking Requests</span>
+        <div class="stat-number text-amber mt-1">{{ stats.pending_count }}</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Service Requests Table -->
+  <div class="card p-4 p-md-5 shadow-lg">
+    <h4 class="fw-bold mb-3 text-dark"><i class="bi bi-inbox-fill me-2" style="color: #d946ef;"></i>Incoming Service Requests</h4>
+    <div class="table-responsive">
+      <table class="table align-middle">
+        <thead>
+          <tr>
+            <th>Customer</th>
+            <th>Service Requested</th>
+            <th>Scheduled Date</th>
+            <th>Customer Budget</th>
+            <th>Your Payout (90%)</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for b in bookings %}
+          <tr>
+            <td class="fw-bold text-dark"><i class="bi bi-person me-1" style="color: #d946ef;"></i>{{ b.customer_name }}</td>
+            <td><span class="badge badge-skill">{{ b.service_name }}</span></td>
+            <td class="text-muted"><i class="bi bi-calendar3 me-1"></i>{{ b.booking_date }}</td>
+            <td>₹{{ b.estimated_budget }}</td>
+            <td class="price-tag fs-6">₹{{ b.worker_amount }}</td>
+            <td>
+              {% if b.status == 'COMPLETED' %}
+                <span class="badge bg-success">Completed</span>
+              {% elif b.status == 'ACCEPTED' %}
+                <span class="badge bg-primary">Accepted</span>
+              {% elif b.status == 'PENDING' %}
+                <span class="badge bg-warning">Pending</span>
+              {% else %}
+                <span class="badge bg-secondary">{{ b.status }}</span>
+              {% endif %}
+            </td>
+            <td>
+              <a href="{{ url_for('booking_detail', booking_id=b.id) }}" class="btn btn-sm btn-primary">
+                View & Action
+              </a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

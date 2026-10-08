@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block content %}
+<!-- Dark Hero Sub-Header -->
+<div class="page-header text-center">
+  <div class="container">
+    <div class="hero-eyebrow animate-fade-in" style="justify-content: center;">
+      Specialized Service Ecosystem
+    </div>
+    <h1 class="hero-title animate-fade-in mb-2" style="font-size: 2.8rem;">
+      Explore Artisan <span>Categories</span>
+    </h1>
+    <p class="hero-subtitle animate-fade-in mb-0" style="max-width: 600px;">
+      Select a skill category to find specialized craftsmen and verified local experts
+    </p>
+  </div>
+</div>
+
+<!-- Floating White Card Section Overlapping Header -->
+<div class="container overlap-container">
+  <div class="row g-4">
+    {% for cat in categories %}
+    <div class="col-md-6 col-lg-3">
+      <div class="card h-100 p-4 text-center">
+        <div class="category-icon-box">
+          {% if 'Tailor' in cat.name or 'Stitch' in cat.name %}
+            <i class="bi bi-scissors"></i>
+          {% elif 'Carpent' in cat.name %}
+            <i class="bi bi-hammer"></i>
+          {% elif 'Plumb' in cat.name %}
+            <i class="bi bi-droplet-fill"></i>
+          {% elif 'Electric' in cat.name %}
+            <i class="bi bi-lightning-charge-fill"></i>
+          {% elif 'Clean' in cat.name %}
+            <i class="bi bi-stars"></i>
+          {% elif 'Paint' in cat.name %}
+            <i class="bi bi-palette-fill"></i>
+          {% elif 'Cook' in cat.name %}
+            <i class="bi bi-egg-fried"></i>
+          {% elif 'Appliance' in cat.name %}
+            <i class="bi bi-gear-wide-connected"></i>
+          {% else %}
+            <i class="bi bi-tools"></i>
+          {% endif %}
+        </div>
+        <h4 class="fw-bold mb-2 text-dark">{{ cat.name }}</h4>
+        <p class="text-muted small mb-4 flex-grow-1" style="font-size: 0.92rem; line-height: 1.6;">{{ cat.description }}</p>
+        <a href="{{ url_for('workers', skill=cat.name) }}" class="btn btn-outline-primary btn-sm w-100">
+          Find {{ cat.name }} Pros <i class="bi bi-arrow-right ms-1"></i>
+        </a>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

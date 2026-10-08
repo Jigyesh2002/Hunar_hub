@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+{% block content %}
+<!-- Dark Hero Splash Header (Reference Image 2 Style) -->
+<div class="hero-section">
+  <div class="container relative-position">
+    <div class="hero-eyebrow animate-fade-in">
+      Empowering Local Kaorigars & Skilled Artisans
+    </div>
+    <h1 class="hero-title animate-fade-in">
+      Find Skilled Local Kaorigars. <br><span>Empower Real Livelihoods.</span>
+    </h1>
+    <p class="hero-subtitle animate-fade-in">
+      <strong>HunarHub</strong> bridges local skilled artisans, tailors, carpenters, plumbers & technicians directly with customers. Instant booking, crystal-clear pricing, and 0 middleman exploitation.
+    </p>
+    <div class="d-flex flex-wrap justify-content-center gap-3 animate-fade-in">
+      <a href="{{ url_for('workers') }}" class="btn btn-primary btn-lg shadow-lg">
+        <i class="bi bi-search me-1"></i> Find Verified Artisans
+      </a>
+      <a href="{{ url_for('register_worker') }}" class="btn btn-outline-light btn-lg">
+        <i class="bi bi-person-badge me-1"></i> Register as an Artisan
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- Floating White Content Card Section Overlapping Hero (Reference Image 2 Style) -->
+<div class="container overlap-container">
+  <!-- How it Works Floating Card -->
+  <div class="card p-4 p-md-5 mb-5 shadow-lg">
+    <div class="text-center mb-5">
+      <h2 class="card-header-title display-6">Good Services Deliver Real Impact</h2>
+      <div style="width: 60px; height: 3px; background: var(--gradient-magenta); margin: 0.8rem auto 1.2rem; border-radius: 2px;"></div>
+      <p class="text-muted" style="max-width: 650px; margin: 0 auto; font-size: 1.05rem;">
+        We connect next-level local talent with households by blending smooth user experience, instant dispatch, and transparent pricing.
+      </p>
+    </div>
+
+    <div class="row g-4 text-center">
+      <div class="col-md-4">
+        <div class="p-3">
+          <div class="category-icon-box">
+            <i class="bi bi-search"></i>
+          </div>
+          <h4 class="fw-bold mb-2 text-dark">Search Artisans</h4>
+          <p class="text-muted small mb-0">Browse verified local technicians, carpenters, plumbers & tailors filtered by skill, city, and hourly rates.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="p-3">
+          <div class="category-icon-box">
+            <i class="bi bi-calendar-check"></i>
+          </div>
+          <h4 class="fw-bold mb-2 text-dark">Direct Booking</h4>
+          <p class="text-muted small mb-0">Select your preferred date & time slot, describe work requirements, and book with 0 upfront fee.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="p-3">
+          <div class="category-icon-box">
+            <i class="bi bi-shield-check"></i>
+          </div>
+          <h4 class="fw-bold mb-2 text-dark">Job Completion</h4>
+          <p class="text-muted small mb-0">The artisan completes the job with high precision. Pay seamlessly while directly empowering local families.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Featured Artisans Section -->
+  <div class="d-flex justify-content-between align-items-end mb-4 pt-2">
+    <div>
+      <span class="text-uppercase fw-bold small" style="color: #c026d3; letter-spacing: 0.1em;"><i class="bi bi-patch-check-fill me-1"></i>Top Verified</span>
+      <h3 class="fw-bold mb-0 text-dark display-6">Featured Skilled Artisans</h3>
+    </div>
+    <a href="{{ url_for('workers') }}" class="btn btn-outline-primary btn-sm">
+      Explore All Artisans <i class="bi bi-arrow-right ms-1"></i>
+    </a>
+  </div>
+
+  <div class="row g-4 mb-5">
+    {% for worker in workers %}
+    <div class="col-md-6 col-lg-3">
+      <div class="card h-100 p-3">
+        <div class="card-body p-0 d-flex flex-column">
+          <div class="d-flex justify-content-between align-items-start mb-3">
+            <div class="d-flex align-items-center gap-2">
+              <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 48px; height: 48px; background: var(--gradient-magenta); color: #fff; font-weight: 800; font-size: 1.2rem;">
+                {{ worker.name[0] }}
+              </div>
+              <div>
+                <h5 class="fw-bold mb-0 text-dark" style="font-size: 1.05rem;">{{ worker.name }}</h5>
+                <span class="text-muted small"><i class="bi bi-geo-alt me-1 text-primary"></i>{{ worker.area }}, {{ worker.city }}</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="mb-3">
+            <span class="badge badge-skill"><i class="bi bi-tools me-1"></i>{{ worker.primary_skill }}</span>
+            {% if worker.verification_status == 'Verified' %}
+              <span class="badge badge-verified ms-1"><i class="bi bi-patch-check-fill me-1"></i>Verified</span>
+            {% endif %}
+          </div>
+
+          <div class="d-flex justify-content-between align-items-center mt-auto pt-3 border-top">
+            <div>
+              <span class="badge bg-warning"><i class="bi bi-star-fill me-1"></i>{{ worker.rating }}</span>
+            </div>
+            <div class="price-tag">
+              ₹{{ worker.price_per_hour }}<small class="text-muted fs-6" style="font-weight:400; font-size:0.75rem !important;">/hr</small>
+            </div>
+          </div>
+
+          <a href="{{ url_for('worker_profile', worker_id=worker.id) }}" class="btn btn-outline-primary btn-sm w-100 mt-3">
+            View Profile & Book
+          </a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- Social Impact Banner -->
+  <div class="card p-4 p-md-5" style="background: linear-gradient(135deg, #ffffff 0%, #fdf4ff 100%) !important; border: 1.5px solid #f5d0fe !important;">
+    <div class="row align-items-center g-4">
+      <div class="col-md-8">
+        <span class="badge bg-success mb-2 p-2"><i class="bi bi-heart-fill me-1"></i> Livelihood Impact</span>
+        <h3 class="fw-bold text-dark mb-2">Supporting Local Artisan Families</h3>
+        <p class="text-muted mb-0">
+          Every booking on HunarHub directly funds skilled local workers. We charge only a minor 10% platform fee for server maintenance, while 90% goes directly to the worker.
+        </p>
+      </div>
+      <div class="col-md-4 text-center">
+        <div class="p-4 rounded-4" style="background: #ffffff; border: 1px solid #e2e8f0; box-shadow: 0 4px 15px rgba(0,0,0,0.03);">
+          <div class="stat-number">₹{{ stats.earnings }}</div>
+          <p class="text-muted small mb-0 fw-bold">Worker Earnings Generated</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

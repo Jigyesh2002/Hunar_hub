@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% block content %}
+<!-- Dark Hero Sub-Header -->
+<div class="page-header text-center">
+  <div class="container">
+    <div class="hero-eyebrow animate-fade-in" style="justify-content: center;">
+      Verified Platform Artisans
+    </div>
+    <h1 class="hero-title animate-fade-in mb-2" style="font-size: 2.8rem;">
+      Find Skilled <span>Kaorigars & Pros</span>
+    </h1>
+    <p class="hero-subtitle animate-fade-in mb-0" style="max-width: 600px;">
+      Browse verified local craftsmen, compare hourly rates, and hire instantly
+    </p>
+  </div>
+</div>
+
+<!-- Floating White Content Section -->
+<div class="container overlap-container">
+  <!-- Filter Card -->
+  <div class="card p-4 mb-4 shadow-lg">
+    <form method="GET" action="{{ url_for('workers') }}" class="row g-3">
+      <div class="col-md-4">
+        <label class="form-label"><i class="bi bi-search me-1" style="color: #d946ef;"></i>Keyword Search</label>
+        <input type="text" name="q" class="form-control" placeholder="Search artisan name, skill..." value="{{ search_query }}">
+      </div>
+      <div class="col-md-3">
+        <label class="form-label"><i class="bi bi-tools me-1" style="color: #8b5cf6;"></i>Filter by Skill</label>
+        <input type="text" name="skill" class="form-control" placeholder="e.g. Carpentry, Tailoring" value="{{ skill_filter }}">
+      </div>
+      <div class="col-md-3">
+        <label class="form-label"><i class="bi bi-geo-alt me-1 text-emerald"></i>Filter by City</label>
+        <input type="text" name="city" class="form-control" placeholder="e.g. Jaipur" value="{{ city_filter }}">
+      </div>
+      <div class="col-md-2 d-flex align-items-end">
+        <button type="submit" class="btn btn-primary w-100"><i class="bi bi-funnel-fill me-1"></i>Filter</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Workers Grid -->
+  <div class="row g-4">
+    {% if workers %}
+      {% for worker in workers %}
+      <div class="col-md-6 col-lg-4">
+        <div class="card h-100 p-4">
+          <div class="card-body p-0 d-flex flex-column">
+            <div class="d-flex justify-content-between align-items-start mb-3">
+              <div class="d-flex align-items-center gap-3">
+                <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 52px; height: 52px; background: var(--gradient-magenta); color: #fff; font-weight: 800; font-size: 1.25rem;">
+                  {{ worker.name[0] }}
+                </div>
+                <div>
+                  <h5 class="fw-bold mb-0 text-dark">{{ worker.name }}</h5>
+                  <span class="text-muted small"><i class="bi bi-geo-alt me-1 text-primary"></i>{{ worker.area }}, {{ worker.city }}</span>
+                </div>
+              </div>
+              {% if worker.verification_status == 'Verified' %}
+                <span class="badge badge-verified"><i class="bi bi-patch-check-fill me-1"></i>Verified</span>
+              {% endif %}
+            </div>
+
+            <div class="mb-3">
+              <span class="badge badge-skill"><i class="bi bi-tools me-1"></i>{{ worker.primary_skill }}</span>
+            </div>
+
+            <p class="text-muted small mb-4 flex-grow-1" style="line-height: 1.65; font-size: 0.92rem;">
+              {{ worker.about | truncate(110) }}
+            </p>
+
+            <div class="d-flex justify-content-between align-items-center pt-3 border-top mb-3">
+              <span class="badge bg-warning"><i class="bi bi-star-fill me-1"></i>{{ worker.rating }} / 5.0</span>
+              <div class="price-tag">
+                ₹{{ worker.price_per_hour }}<small class="text-muted fs-6" style="font-weight:400; font-size:0.75rem !important;">/hr</small>
+              </div>
+            </div>
+
+            <div class="d-grid gap-2">
+              <a href="{{ url_for('worker_profile', worker_id=worker.id) }}" class="btn btn-outline-primary btn-sm">
+                <i class="bi bi-person-lines-fill me-1"></i>View Profile
+              </a>
+              <a href="{{ url_for('book_worker', worker_id=worker.id) }}" class="btn btn-success btn-sm">
+                <i class="bi bi-calendar-plus me-1"></i>Book Artisan Now
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    {% else %}
+      <div class="col-12 text-center py-5">
+        <div class="card p-5" style="max-width: 500px; margin: 0 auto;">
+          <i class="bi bi-search-heart display-2 text-muted mb-3"></i>
+          <h4 class="fw-bold text-dark">No Artisans Found</h4>
+          <p class="text-muted">No verified workers match your search criteria. Try clearing filters or searching for another skill.</p>
+          <a href="{{ url_for('workers') }}" class="btn btn-outline-primary mt-2">Reset All Filters</a>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

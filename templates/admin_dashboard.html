@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% block content %}
+<!-- Dark Hero Sub-Header -->
+<div class="page-header text-center">
+  <div class="container">
+    <div class="hero-eyebrow animate-fade-in" style="justify-content: center;">
+      Platform Operations & Governance
+    </div>
+    <h1 class="hero-title animate-fade-in mb-2" style="font-size: 2.8rem;">
+      HunarHub <span>Admin Console</span>
+    </h1>
+    <p class="hero-subtitle animate-fade-in mb-0" style="max-width: 600px;">
+      Platform overview, artisan verification management, and commission tracking
+    </p>
+  </div>
+</div>
+
+<!-- Floating Content Card Section -->
+<div class="container overlap-container">
+  <!-- Platform Overview Stats -->
+  <div class="row g-3 mb-4 text-center">
+    <div class="col-md-2">
+      <div class="stat-card shadow-lg">
+        <small class="text-muted fw-bold">Customers</small>
+        <div class="fs-3 fw-bold text-dark mt-1">{{ stats.total_customers }}</div>
+      </div>
+    </div>
+    <div class="col-md-2">
+      <div class="stat-card shadow-lg">
+        <small class="text-muted fw-bold">Total Artisans</small>
+        <div class="fs-3 fw-bold text-dark mt-1">{{ stats.total_workers }}</div>
+      </div>
+    </div>
+    <div class="col-md-2">
+      <div class="stat-card shadow-lg" style="border-color: #fde68a !important; background: #fffbeb;">
+        <small class="text-amber fw-bold">Pending Artisans</small>
+        <div class="fs-3 fw-bold text-amber mt-1">{{ stats.pending_workers }}</div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="stat-card shadow-lg">
+        <small class="text-muted fw-bold">Total Bookings</small>
+        <div class="fs-3 fw-bold mt-1" style="color: #c026d3;">{{ stats.total_bookings }}</div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="stat-card shadow-lg" style="border-color: #a7f3d0 !important; background: #ecfdf5;">
+        <small class="text-emerald fw-bold">Platform Revenue (10%)</small>
+        <div class="fs-3 fw-bold text-emerald mt-1">₹{{ stats.total_commission }}</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Worker Verification Card -->
+  <div class="card p-4 p-md-5 shadow-lg">
+    <h4 class="fw-bold mb-3 text-dark"><i class="bi bi-patch-check-fill text-emerald me-2"></i>Artisan Verification & Governance</h4>
+    <div class="table-responsive">
+      <table class="table align-middle">
+        <thead>
+          <tr>
+            <th>Artisan Name</th>
+            <th>Primary Skill</th>
+            <th>City</th>
+            <th>Verification Status</th>
+            <th>Admin Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for w in workers %}
+          <tr>
+            <td class="fw-bold text-dark"><i class="bi bi-person me-1" style="color: #d946ef;"></i>{{ w.name }}</td>
+            <td><span class="badge badge-skill">{{ w.primary_skill }}</span></td>
+            <td class="text-muted"><i class="bi bi-geo-alt me-1"></i>{{ w.city }}</td>
+            <td>
+              {% if w.verification_status == 'Verified' %}
+                <span class="badge badge-verified"><i class="bi bi-check-circle-fill me-1"></i>Verified</span>
+              {% elif w.verification_status == 'Pending' %}
+                <span class="badge bg-warning"><i class="bi bi-hourglass-split me-1"></i>Pending</span>
+              {% else %}
+                <span class="badge bg-danger"><i class="bi bi-x-circle-fill me-1"></i>Rejected</span>
+              {% endif %}
+            </td>
+            <td>
+              <div class="d-flex gap-2">
+                <form method="POST" action="{{ url_for('admin_update_worker_status', worker_id=w.id, status='Verified') }}">
+                  <button class="btn btn-sm btn-success" {% if w.verification_status == 'Verified' %}disabled{% endif %}>
+                    <i class="bi bi-check-lg me-1"></i>Verify
+                  </button>
+                </form>
+                <form method="POST" action="{{ url_for('admin_update_worker_status', worker_id=w.id, status='Rejected') }}">
+                  <button class="btn btn-sm btn-outline-danger" {% if w.verification_status == 'Rejected' %}disabled{% endif %}>
+                    <i class="bi bi-x-lg me-1"></i>Reject
+                  </button>
+                </form>
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

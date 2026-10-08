@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% block content %}
+<!-- Dark Hero Sub-Header -->
+<div class="page-header text-center">
+  <div class="container">
+    <div class="hero-eyebrow animate-fade-in" style="justify-content: center;">
+      Direct Service Dispatch
+    </div>
+    <h1 class="hero-title animate-fade-in mb-2" style="font-size: 2.8rem;">
+      Book <span>{{ worker.worker_name }}</span>
+    </h1>
+    <p class="hero-subtitle animate-fade-in mb-0" style="max-width: 600px;">
+      Skill: <strong>{{ worker.primary_skill }}</strong> | Hourly Rate: <strong class="text-emerald">₹{{ worker.price_per_hour }}/hr</strong>
+    </p>
+  </div>
+</div>
+
+<!-- Floating Content Card Section -->
+<div class="container overlap-container" style="max-width: 720px;">
+  <div class="card p-4 p-md-5 shadow-lg">
+    <form method="POST">
+      <div class="mb-3">
+        <label class="form-label"><i class="bi bi-tools me-1" style="color: #d946ef;"></i>Service Required</label>
+        <input type="text" name="service_name" class="form-control" placeholder="e.g. Chair Repair / Tap Fixing / Wiring" required>
+      </div>
+      
+      <div class="row g-3 mb-3">
+        <div class="col-md-6">
+          <label class="form-label"><i class="bi bi-calendar3 me-1" style="color: #8b5cf6;"></i>Preferred Date</label>
+          <input type="date" name="booking_date" class="form-control" required>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label"><i class="bi bi-clock me-1 text-amber"></i>Preferred Time Slot</label>
+          <input type="time" name="booking_time" class="form-control" required>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label"><i class="bi bi-geo-alt me-1 text-emerald"></i>Full Service Location Address</label>
+        <textarea name="address" class="form-control" rows="2" placeholder="House no, Street, Area, Landmark..." required></textarea>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label"><i class="bi bi-pencil-square me-1" style="color: #d946ef;"></i>Work Description & Requirements</label>
+        <textarea name="work_description" class="form-control" rows="3" placeholder="Describe specific job requirements or tools needed..."></textarea>
+      </div>
+
+      <div class="mb-4">
+        <label class="form-label"><i class="bi bi-currency-rupee me-1 text-amber"></i>Estimated Total Job Budget (₹)</label>
+        <input type="number" step="10" name="estimated_budget" class="form-control fs-5 fw-bold" placeholder="1000" required>
+      </div>
+
+      <div class="demo-banner mb-4">
+        <div class="d-flex align-items-start gap-2">
+          <i class="bi bi-shield-check fs-5 text-amber"></i>
+          <div>
+            <strong>Transparent Livelihood Commission:</strong><br>
+            A 10% platform commission is automatically computed on completion. 90% goes directly to the worker. Zero upfront deposit required.
+          </div>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-success btn-lg w-100 shadow-sm">
+        <i class="bi bi-send-fill me-1"></i>Confirm & Dispatch Booking Request
+      </button>
+    </form>
+  </div>
+</div>
+{% endblock %}
