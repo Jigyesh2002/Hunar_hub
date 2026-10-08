@@ -2,7 +2,7 @@ import sqlite3
 import os
 from werkzeug.security import generate_password_hash
 
-DATABASE = 'skillconnect.db'
+DATABASE = 'Hunar_hub.db'
 
 def seed_database():
     if not os.path.exists(DATABASE):
@@ -12,7 +12,7 @@ def seed_database():
     conn = sqlite3.connect(DATABASE)
     cursor = conn.cursor()
 
-    print("Seeding SkillConnect database...")
+    print("Seeding Hunar_hub database...")
 
     # Clear existing data
     cursor.execute("DELETE FROM reviews")

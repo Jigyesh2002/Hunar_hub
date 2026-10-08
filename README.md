@@ -16,7 +16,7 @@ Make sure Python (version 3.10 or higher) is installed on your system.
 ### Step 1: Open Terminal in Project Directory
 Open PowerShell or Command Prompt inside the project folder:
 ```powershell
-cd d:\skillconnect
+cd d:\Hunar_hub
 ```
 
 ---

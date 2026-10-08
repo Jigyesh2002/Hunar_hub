@@ -11,8 +11,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 mimetypes.add_type('text/css', '.css')
 
 app = Flask(__name__)
-app.secret_key = os.environ.get('SECRET_KEY', 'skillconnect_secret_key_change_in_production')
-DATABASE = os.path.join(app.root_path, 'skillconnect.db')
+app.secret_key = os.environ.get('SECRET_KEY', 'hunar_hub_secret_key_change_in_production')
+DATABASE = os.path.join(app.root_path, 'Hunar_hub.db')
 
 def get_db():
     if 'db' not in g:
@@ -124,7 +124,7 @@ def init_db():
     ''')
 
     admin = cursor.execute(
-        'SELECT id FROM users WHERE email = ?', ('admin@skillconnect.com',)
+        'SELECT id FROM users WHERE email = ?', ('admin@hunarhub.com',)
     ).fetchone()
     if admin is None:
         cursor.execute('''
@@ -132,7 +132,7 @@ def init_db():
             VALUES (?, ?, ?, ?, 'admin', ?, ?)
         ''', (
             'Platform Admin',
-            'admin@skillconnect.com',
+            'admin@hunarhub.com',
             '9876543210',
             generate_password_hash('admin123'),
             'Jaipur',
